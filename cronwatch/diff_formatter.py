@@ -8,10 +8,26 @@ from cronwatch.run_comparator import RunDiff
 
 
 def format_diff(diff: RunDiff, fmt: Literal["text", "json"] = "text") -> str:
-    """Return *diff* formatted as *fmt*."""
+    """Return *diff* formatted as *fmt*.
+
+    Parameters
+    ----------
+    diff:
+        The :class:`RunDiff` object produced by :func:`~cronwatch.run_comparator.compare_runs`.
+    fmt:
+        Output format – ``"text"`` for a human-readable summary or ``"json"``
+        for a machine-readable JSON string.
+
+    Raises
+    ------
+    ValueError
+        If *fmt* is not one of the supported format strings.
+    """
     if fmt == "json":
         return _as_json(diff)
-    return _as_text(diff)
+    if fmt == "text":
+        return _as_text(diff)
+    raise ValueError(f"Unsupported format {fmt!r}. Expected 'text' or 'json'.")
 
 
 def _as_text(diff: RunDiff) -> str:
