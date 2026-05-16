@@ -37,7 +37,15 @@ class RunBudgetChecker:
         """Check the last completed run for *job_name* against *budget_seconds*.
 
         Returns ``None`` if no completed run exists.
+
+        Raises:
+            ValueError: If *budget_seconds* is not a positive number.
         """
+        if budget_seconds <= 0:
+            raise ValueError(
+                f"budget_seconds must be positive, got {budget_seconds!r}"
+            )
+
         run = self._store.get_last_run(job_name)
         if run is None:
             return None
