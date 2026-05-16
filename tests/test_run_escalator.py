@@ -103,3 +103,10 @@ def test_is_elevated_true_when_warning(store, escalator):
     _add_run(store, "myjob", 1, _utc(hour=2), _utc(hour=3))
     lvl = escalator.evaluate("myjob")
     assert lvl.is_elevated
+
+
+def test_is_elevated_true_when_critical(store, escalator):
+    for h in range(4):
+        _add_run(store, "myjob", 1, _utc(hour=h * 2), _utc(hour=h * 2 + 1))
+    lvl = escalator.evaluate("myjob")
+    assert lvl.is_elevated
